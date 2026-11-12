@@ -752,6 +752,7 @@ Continue with Google
 <script type="module">
 const SUPABASE_URL='https://uvlylndvakrosdhudqvl.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_dfDCdc9NE_FCKrRtOPurfw_Tcj-7cd_';
+const APP_URL=new URL('./',location.href).href;
 
 const $=s=>document.querySelector(s);
 const pad=n=>String(n).padStart(2,'0');
@@ -1410,7 +1411,7 @@ if(!sb){authMsg('Account sync is not connected.');return}
 authMsg('Connecting to Google…');
 const {error}=await sb.auth.signInWithOAuth({
 provider:'google',
-options:{redirectTo:location.origin}
+options:{redirectTo:APP_URL}
 });
 if(error)authMsg(error.message);
 };
@@ -1444,7 +1445,7 @@ try{
 const {data:result,error}=await sb.auth.signUp({
 email,
 password,
-options:{emailRedirectTo:location.origin}
+options:{emailRedirectTo:APP_URL}
 });
 if(error){authMsg(error.message);return}
 if(result.session&&result.user){

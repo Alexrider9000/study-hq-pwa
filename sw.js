@@ -1,4 +1,4 @@
-const CACHE='study-hq-builder-pwa-v2';
+const CACHE='study-hq-builder-pwa-v3';
 const ASSETS=[
 './',
 './index.html',

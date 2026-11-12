@@ -1,0 +1,1645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0e19">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Study HQ">
+<title>Study HQ · Mobile</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon.svg">
+<style>
+:root{
+font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif;
+color:#f5f3ff;
+background:#0b0e19;
+}
+*{box-sizing:border-box}
+body{
+margin:0;
+background:
+radial-gradient(ellipse at 80% 0%,#30214b 0,transparent 42%),
+#0b0e19;
+min-height:100vh;
+min-height:100dvh;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.38;cursor:not-allowed}
+.hidden{display:none!important}
+
+.shell{
+max-width:640px;
+margin:auto;
+padding:14px 14px calc(104px + env(safe-area-inset-bottom));
+}
+
+.top{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+.brand{
+font-size:18px;
+font-weight:900;
+letter-spacing:-.7px;
+}
+.brand em{
+font-style:normal;
+color:#b69aff;
+}
+.pill{
+border:1px solid rgba(222,207,255,.22);
+border-radius:999px;
+background:rgba(255,255,255,.06);
+color:#eee7ff;
+padding:8px 12px;
+font-size:12px;
+font-weight:800;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+
+.hero{
+margin-top:14px;
+border-radius:24px;
+padding:18px;
+border:1px solid rgba(222,207,255,.2);
+background:
+linear-gradient(135deg,rgba(255,255,255,.12),rgba(192,161,255,.07) 38%,rgba(255,255,255,.045)),
+rgba(28,24,53,.16);
+backdrop-filter:blur(24px) saturate(165%);
+-webkit-backdrop-filter:blur(24px) saturate(165%);
+box-shadow:inset 0 1px rgba(255,255,255,.18),0 10px 30px rgba(5,5,18,.14);
+}
+.eyebrow{
+font-size:10px;
+letter-spacing:2px;
+font-weight:800;
+color:#b7a5fa;
+}
+.clock{
+font-variant-numeric:tabular-nums;
+font-size:46px;
+font-weight:850;
+letter-spacing:-2px;
+color:#e8ddff;
+text-shadow:0 0 10px rgba(230,216,255,.45),0 0 22px rgba(173,139,255,.3);
+margin:6px 0 2px;
+}
+.clock span{
+font-size:12px;
+letter-spacing:0;
+color:#bdb1e8;
+font-weight:700;
+}
+.hero h1{
+font-size:18px;
+margin:10px 0 4px;
+}
+.hero p{
+color:#aaa9c3;
+font-size:13px;
+line-height:1.45;
+margin:0;
+}
+
+.weeknav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+margin:16px 0 12px;
+}
+.weeknav button,.secondary{
+background:rgba(255,255,255,.065);
+border:1px solid rgba(222,207,255,.18);
+color:#eeeafa;
+border-radius:14px;
+padding:11px 14px;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+.weeknav strong{
+font-size:12px;
+text-align:center;
+flex:1;
+color:#eee7ff;
+}
+
+.days{
+display:flex;
+gap:8px;
+overflow-x:auto;
+padding-bottom:8px;
+scrollbar-width:none;
+}
+.days::-webkit-scrollbar{display:none}
+.day{
+min-width:68px;
+border:1px solid rgba(222,207,255,.16);
+background:rgba(255,255,255,.055);
+color:#a7a8be;
+border-radius:18px;
+padding:12px 8px;
+text-align:center;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+.day b,.day span{display:block}
+.day b{font-size:12px;color:#f4f0ff}
+.day span{font-size:10px;margin-top:5px;color:#a7a8be}
+.day.active{
+background:linear-gradient(135deg,#d3bdff,#a97eff);
+color:#211731;
+border-color:rgba(255,255,255,.55);
+}
+.day.active b{color:#211731}
+.day.active span{color:#3c2a5d}
+.day.today{
+box-shadow:inset 0 0 0 1px #9ee9d0;
+}
+.day.missed{
+opacity:.58;
+filter:saturate(.5);
+}
+
+.section{
+margin:18px 0 10px;
+}
+.section h2{
+font-size:24px;
+letter-spacing:-.8px;
+margin:4px 0;
+}
+.small{font-size:12px}
+.muted{color:#a9abc1}
+
+.cards{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+}
+.card,.panel{
+border-radius:22px;
+padding:16px;
+border:1px solid rgba(222,207,255,.18);
+background:
+linear-gradient(135deg,rgba(255,255,255,.1),rgba(192,161,255,.06) 38%,rgba(255,255,255,.04)),
+rgba(28,24,53,.14);
+backdrop-filter:blur(22px) saturate(165%);
+-webkit-backdrop-filter:blur(22px) saturate(165%);
+box-shadow:inset 0 1px rgba(255,255,255,.16),0 10px 28px rgba(5,5,18,.12);
+}
+.card{
+display:flex;
+flex-direction:column;
+gap:14px;
+justify-content:space-between;
+min-height:158px;
+}
+.card.locked{
+border-color:rgba(132,225,188,.45);
+background:
+linear-gradient(125deg,rgba(150,255,213,.13),rgba(255,255,255,.045)),
+rgba(23,52,47,.14);
+}
+.between{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+.code{
+font-size:11px;
+font-weight:800;
+color:#c5adff;
+background:rgba(122,98,190,.22);
+padding:5px 8px;
+border-radius:8px;
+}
+.card h3{
+font-size:18px;
+margin:10px 0 5px;
+}
+.card p{
+font-size:13px;
+color:#b1b3c6;
+line-height:1.45;
+margin:0;
+}
+.complete{
+border:0;
+border-radius:14px;
+background:linear-gradient(135deg,#cfb6ff,#9d77ff);
+color:#1a1327;
+padding:13px 16px;
+font-weight:850;
+width:100%;
+}
+.locked .complete{
+background:linear-gradient(135deg,#9fe7c9,#6fd3ab);
+color:#153128;
+}
+.status{
+font-size:11px;
+color:#a7aabd;
+}
+.recommend{
+margin-top:10px;
+padding:9px 11px;
+border-radius:12px;
+border:1px solid rgba(189,161,255,.28);
+background:linear-gradient(110deg,rgba(180,154,255,.12),rgba(142,223,192,.08));
+color:#d9caff;
+font-size:10px;
+font-weight:850;
+letter-spacing:1.1px;
+text-align:center;
+}
+
+.add-panel{
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:158px;
+border-style:dashed;
+border-color:rgba(180,154,255,.38);
+cursor:pointer;
+}
+.add-panel-inner{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+}
+.add-symbol{
+font-size:40px;
+font-weight:300;
+color:#c4b5fd;
+line-height:1;
+animation:addPulse 3s ease-in-out infinite;
+}
+.add-label{
+font-size:12px;
+font-weight:800;
+color:#a9abc1;
+letter-spacing:1px;
+}
+@keyframes addPulse{
+0%,100%{text-shadow:0 0 14px rgba(180,154,255,.5),0 0 28px rgba(180,154,255,.25)}
+50%{text-shadow:0 0 20px rgba(180,154,255,.75),0 0 36px rgba(180,154,255,.4)}
+}
+
+.empty-slot{
+border-style:dashed;
+border-color:rgba(180,154,255,.25);
+cursor:pointer;
+opacity:.8;
+}
+.empty-slot-inner{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:8px;
+flex:1;
+min-height:120px;
+}
+.empty-slot-inner .icon{
+font-size:26px;
+opacity:.65;
+}
+.empty-slot-inner p{
+font-size:12px;
+color:#a9abc1;
+margin:0;
+}
+
+.note{
+font-size:12px;
+color:#aaaec2;
+line-height:1.55;
+margin-top:14px;
+}
+.report{
+border-radius:24px;
+padding:18px;
+border:1px solid rgba(222,207,255,.2);
+background:
+linear-gradient(135deg,rgba(255,255,255,.1),rgba(171,136,255,.08) 42%,rgba(255,255,255,.035)),
+rgba(28,24,53,.14);
+backdrop-filter:blur(22px) saturate(165%);
+-webkit-backdrop-filter:blur(22px) saturate(165%);
+}
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-top:12px;
+}
+.stat{
+border:1px solid rgba(222,207,255,.16);
+background:rgba(255,255,255,.05);
+border-radius:16px;
+padding:12px 8px;
+}
+.stat strong{
+font-size:22px;
+display:block;
+letter-spacing:-1px;
+font-variant-numeric:tabular-nums;
+}
+.stat span{
+font-size:10px;
+color:#a9abc0;
+}
+.bar{
+height:9px;
+background:rgba(255,255,255,.12);
+border-radius:20px;
+overflow:hidden;
+margin:15px 0 8px;
+}
+.bar div{
+height:100%;
+width:0;
+background:linear-gradient(90deg,#8edfc0,#bda1ff);
+transition:width .3s;
+}
+.history{
+display:grid;
+gap:9px;
+margin-top:14px;
+}
+.history button{
+background:rgba(255,255,255,.055);
+color:#f3f0ff;
+border:1px solid rgba(222,207,255,.16);
+border-radius:16px;
+text-align:left;
+padding:14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+.history small{
+display:block;
+color:#aaaac1;
+margin-top:5px;
+font-size:11px;
+}
+.glow{
+color:#d6c4ff;
+text-shadow:0 0 14px rgba(162,122,255,.55);
+}
+.rest{
+text-align:center;
+padding:34px 12px;
+}
+.rest .moon{
+font-size:44px;
+}
+
+.bottomnav{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+z-index:30;
+display:flex;
+gap:8px;
+padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+background:rgba(8,10,20,.82);
+border-top:1px solid rgba(222,207,255,.16);
+backdrop-filter:blur(28px) saturate(160%);
+-webkit-backdrop-filter:blur(28px) saturate(160%);
+}
+.navbtn{
+flex:1;
+border:1px solid rgba(222,207,255,.16);
+background:rgba(255,255,255,.055);
+color:#cfc8ea;
+border-radius:18px;
+padding:12px 6px;
+font-weight:850;
+font-size:12px;
+}
+.navbtn.active{
+background:linear-gradient(135deg,#d3bdff,#a97eff);
+color:#1b1230;
+border-color:rgba(255,255,255,.5);
+}
+
+.modalback{
+position:fixed;
+inset:0;
+background:rgba(5,6,17,.55);
+display:none;
+align-items:flex-end;
+justify-content:center;
+z-index:50;
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+padding:0;
+}
+.modalback.show{display:flex}
+.modal{
+width:100%;
+max-width:100%;
+border-radius:28px 28px 0 0;
+background:rgba(30,27,52,.94);
+border:1px solid rgba(229,216,255,.24);
+padding:20px 18px calc(22px + env(safe-area-inset-bottom));
+max-height:92dvh;
+overflow:auto;
+backdrop-filter:blur(30px) saturate(170%);
+-webkit-backdrop-filter:blur(30px) saturate(170%);
+box-shadow:0 -18px 60px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.18);
+}
+.modal h2{
+margin:5px 0 10px;
+font-size:24px;
+}
+.modal p{
+font-size:14px;
+line-height:1.55;
+color:#c4c2d5;
+}
+.modal .complete,.modal .secondary{
+width:100%;
+margin-top:10px;
+}
+.modal input,.modal select{
+width:100%;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(185,167,239,.38);
+border-radius:14px;
+padding:13px;
+color:#fff;
+margin:6px 0;
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+}
+.modal select option{
+background:#252139;
+color:#fff;
+}
+.edit-modal label{
+display:block;
+color:#c8b8ef;
+font-size:11px;
+font-weight:800;
+letter-spacing:1px;
+margin:12px 0 4px;
+}
+.time-wheel{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:8px;
+margin:5px 0 10px;
+}
+.danger{
+color:#ffc9d6;
+border-color:rgba(255,105,135,.35);
+}
+
+.auth-screen{display:none}
+.auth-screen.active{display:block}
+.auth-switch{
+text-align:center;
+font-size:13px;
+color:#c4bfd5;
+margin:16px 0 3px;
+}
+.auth-switch button{
+border:0;
+background:none;
+color:#d0baff;
+font-weight:850;
+padding:3px 5px;
+}
+.auth-error{
+min-height:20px;
+margin:13px 0 0;
+color:#f3c5dc;
+font-size:12px;
+overflow-wrap:anywhere;
+}
+.auth-email{
+font-size:12px;
+color:#c8bddf;
+overflow-wrap:anywhere;
+}
+.username-stage{
+min-height:52px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:2px;
+margin:20px 0 14px;
+font-size:34px;
+font-weight:900;
+letter-spacing:2px;
+color:#eee4ff;
+text-shadow:0 0 17px rgba(180,145,255,.65);
+}
+.username-letter{
+display:inline-block;
+min-width:.55em;
+text-align:center;
+}
+.toast{
+position:fixed;
+bottom:calc(86px + env(safe-area-inset-bottom));
+left:50%;
+transform:translateX(-50%);
+background:#b49aff;
+color:#1a1327;
+border-radius:14px;
+padding:12px 18px;
+z-index:70;
+font-size:13px;
+font-weight:800;
+display:none;
+max-width:90vw;
+text-align:center;
+}
+
+@media(prefers-reduced-motion:reduce){
+.add-symbol{animation:none!important}
+*{transition:none!important}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top">
+<div class="brand">✳ STUDY<em>HQ</em></div>
+<button class="pill" id="account">◉ Sign in</button>
+</header>
+
+<section class="hero">
+<div class="eyebrow" id="date">TODAY</div>
+<div class="clock" id="clock">--:--<span> --</span></div>
+<p id="weekMoment">Build your week, own your time.</p>
+<h1 id="headline">Define your missions. Confirm your progress.</h1>
+<p>Completed sessions are permanent. Your reports grow as the week unfolds.</p>
+<button id="installBtn" class="complete hidden" style="margin-top:12px">Install Study HQ</button>
+</section>
+
+<div class="weeknav">
+<button id="prev" aria-label="Previous week">‹</button>
+<strong id="weekLabel"></strong>
+<button id="next" aria-label="Next week">›</button>
+</div>
+
+<section id="missionsView">
+<nav class="days" id="days" aria-label="Days of week"></nav>
+<div class="section">
+<div class="eyebrow" id="dayTag"></div>
+<h2 id="dayName"></h2>
+<div class="small muted" id="dayDate"></div>
+</div>
+<div class="cards" id="cards"></div>
+<p class="note" id="missionBriefing"></p>
+<p class="note">Tap an empty slot to define it. Add up to 5 missions per day. Confirmed missions are locked forever. Sunday is free.</p>
+</section>
+
+<section id="reportsView" class="hidden">
+<div id="reportDetail"></div>
+<div class="history" id="history"></div>
+</section>
+</main>
+
+<nav class="bottomnav">
+<button class="navbtn active" id="navMissions">Missions</button>
+<button class="navbtn" id="navReports">Reports</button>
+<button class="navbtn" id="navAccount">Account</button>
+</nav>
+
+<div class="modalback" id="confirmBack">
+<div class="modal">
+<div class="eyebrow">FINAL CHECKPOINT</div>
+<h2 id="confirmTitle">Did you complete this?</h2>
+<p id="confirmDesc"></p>
+<p class="glow">Confirming permanently locks this session and updates your weekly report.</p>
+<button class="complete" id="yes">Yes, I actually finished it →</button>
+<button class="secondary" id="no">Not yet</button>
+</div>
+</div>
+
+<div class="modalback" id="glassBack">
+<div class="modal">
+<div class="eyebrow">✦ STUDY HQ NOTICE</div>
+<h2 id="glassTitle">Unavailable</h2>
+<p id="glassDesc"></p>
+<button class="secondary" id="glassClose">Got it</button>
+</div>
+</div>
+
+<div class="modalback" id="editBack">
+<div class="modal edit-modal">
+<div class="eyebrow">✦ MISSION STUDIO</div>
+<h2 id="editTitle">Define your mission</h2>
+<p class="note">Set the time, subject, and objective for this session.</p>
+
+<label>START TIME</label>
+<div class="time-wheel" id="startWheel">
+<select aria-label="Start hour" class="wheel-hour"></select>
+<select aria-label="Start minute" class="wheel-minute"></select>
+<select aria-label="Start AM or PM" class="wheel-period"></select>
+</div>
+
+<label>END TIME</label>
+<div class="time-wheel" id="endWheel">
+<select aria-label="End hour" class="wheel-hour"></select>
+<select aria-label="End minute" class="wheel-minute"></select>
+<select aria-label="End AM or PM" class="wheel-period"></select>
+</div>
+
+<label>COURSE / TYPE
+<select id="editCode">
+<option>MATH</option>
+<option>PHYSICS</option>
+<option>CHEMISTRY</option>
+<option>BIOLOGY</option>
+<option>ENGLISH</option>
+<option>HISTORY</option>
+<option>CODING</option>
+<option>SRS</option>
+<option value="OTHER">Other / custom…</option>
+</select>
+</label>
+<input id="editCustomCode" maxlength="40" placeholder="Custom course or activity" class="hidden">
+
+<label>MISSION TITLE<input id="editName" maxlength="90" placeholder="e.g. Calculus Problem Set"></label>
+<label>YOUR OBJECTIVE<input id="editObjective" maxlength="180" placeholder="What will you accomplish?"></label>
+
+<p id="editConflict" class="note hidden" role="alert" style="color:#f5c8e9;border:1px solid #d6a2db77;background:#5c345b55;border-radius:12px;padding:11px"></p>
+
+<button class="complete" id="saveEdit">Save mission ✦</button>
+<button class="secondary danger" id="deleteEdit" hidden>Delete mission</button>
+<button class="secondary" id="cancelEdit">Cancel</button>
+</div>
+</div>
+
+<div class="modalback" id="authBack">
+<div class="modal">
+<div class="eyebrow">✦ STUDY HQ ACCOUNT</div>
+
+<div class="auth-screen active" id="authLogin">
+<h2>Sync your devices</h2>
+<p>Sign in to keep your study progress connected.</p>
+<input id="email" type="email" placeholder="Email address" autocomplete="email">
+<input id="password" type="password" placeholder="Password" autocomplete="current-password">
+<button class="complete" id="signin">Sign in</button>
+
+<button class="secondary" id="googleSignIn" type="button" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:10px">
+<svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.25 5.48-4.73 7.18l7.66 5.94c4.47-4.13 7.11-10.2 7.11-17.59z"/>
+<path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.52 2.56 10.78l7.97-6.19z"/>
+<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.86l-7.66-5.94c-2.13 1.43-4.86 2.28-8.25 2.28-6.26 0-11.57-4.22-13.47-9.91l-7.97 6.19C6.51 42.62 14.62 48 24 48z"/>
+</svg>
+Continue with Google
+</button>
+<p class="auth-switch">New to Study HQ? <button type="button" id="showSignup">Create an account</button></p>
+</div>
+
+<div class="auth-screen" id="authSignup">
+<h2>Create your account</h2>
+<p>Register with your email and password.</p>
+<input id="signupEmail" type="email" placeholder="Email address" autocomplete="email">
+<input id="signupPassword" type="password" placeholder="Password (at least 6 characters)" autocomplete="new-password" minlength="6">
+<button class="complete" id="createAccount">Create account</button>
+<p class="auth-switch">Already have an account? <button type="button" id="showLogin">Sign in</button></p>
+</div>
+
+<div class="auth-screen" id="authUsername">
+<h2>Choose your username</h2>
+<p>This is how you'll appear in Study HQ.</p>
+<input id="usernameInput" type="text" placeholder="e.g. Alex_27" autocomplete="username" maxlength="20">
+<p class="note">3–20 characters · letters, numbers and underscores.</p>
+<button class="complete" id="saveUsername">Continue →</button>
+<button class="secondary" id="retryProfile" type="button">Check account again</button>
+</div>
+
+<div class="auth-screen" id="authWelcome">
+<div class="eyebrow">✦ IDENTITY CONFIRMED</div>
+<div class="username-stage" id="usernameStage" aria-live="polite"></div>
+<h2 id="welcomeTitle">Welcome to Study HQ.</h2>
+<p id="welcomeDesc">Your study progress is now connected.</p>
+<p class="auth-email" id="accountEmail"></p>
+<button class="secondary" id="changeUsername" type="button" hidden>Change username</button>
+<button class="complete" id="welcomeDone">Continue</button>
+</div>
+
+<button class="secondary danger" id="signout" type="button" hidden>Sign out</button>
+<p id="authNote" class="auth-error" role="status" aria-live="polite"></p>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+const SUPABASE_URL='https://uvlylndvakrosdhudqvl.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_dfDCdc9NE_FCKrRtOPurfw_Tcj-7cd_';
+
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>new Date(s+'T12:00:00');
+const add=(s,n)=>{let d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const today=()=>iso(new Date());
+const monday=s=>{let d=parse(s);d.setDate(d.getDate()-(d.getDay()+6)%7);return iso(d)};
+const thisWeek=()=>monday(today());
+const nice=s=>parse(s).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+const weekOf=s=>monday(s);
+const FIRST_WEEK='2026-10-26';
+const lastAvailableWeek=()=>thisWeek()<FIRST_WEEK?FIRST_WEEK:thisWeek();
+const DAY_NAMES=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const TEMPLATE_SLOTS=2;
+const MAX_SLOTS=5;
+const store='studyhq-builder-pwa-v1';
+const rk=(date,uid)=>`${date}|${uid}`;
+
+let data={records:{},reports:{},sessions:{}};
+try{
+const x=JSON.parse(localStorage.getItem(store));
+if(x&&x.records&&x.sessions)data={...data,...x};
+}catch{}
+
+function persist(){localStorage.setItem(store,JSON.stringify(data))}
+persist();
+
+let chosen=thisWeek(),selected=(new Date().getDay()+6)%7,view='missions',pending=null,sb=null,user=null,username=null,editing=null;
+let authLoadSequence=0;
+let usernameSaving=false;
+
+function nextUid(sessions){
+return sessions.reduce((m,s)=>Math.max(m,Number(s.uid)||0),-1)+1;
+}
+
+function initWeek(weekStart){
+let changed=false;
+for(let i=0;i<7;i++){
+const date=add(weekStart,i);
+if(!Array.isArray(data.sessions[date])){
+data.sessions[date]=i===6?[]:Array.from({length:TEMPLATE_SLOTS},(_,uid)=>({uid,time:'',code:'',title:'',objective:'',defined:false}));
+changed=true;
+}
+}
+if(changed)persist();
+}
+
+function getSessions(date){return Array.isArray(data.sessions[date])?data.sessions[date]:[]}
+function getDefined(date){return getSessions(date).filter(s=>s.defined)}
+
+function stats(w){
+let total=0,done=0,elapsed=0,elapsedDone=0,days=0;
+for(let i=0;i<7;i++){
+const date=add(w,i);
+const sessions=getDefined(date);
+total+=sessions.length;
+const dayDone=sessions.filter(s=>data.records[rk(date,s.uid)]).length;
+done+=dayDone;
+if(date<=today()){
+elapsed+=sessions.length;
+elapsedDone+=dayDone;
+}
+if(i<6&&sessions.length>0&&dayDone===sessions.length)days++;
+}
+return {
+total,
+done,
+elapsed,
+elapsedDone,
+days,
+pct:total?Math.round(done/total*100):0,
+pace:elapsed?Math.round(elapsedDone/elapsed*100):0
+};
+}
+
+function notify(t){
+$('#toast').textContent=t;
+$('#toast').style.display='block';
+setTimeout(()=>$('#toast').style.display='none',2800);
+}
+
+function getISOWeekNumber(date){
+const d=new Date(Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()));
+const dayNum=d.getUTCDay()||7;
+d.setUTCDate(d.getUTCDate()+4-dayNum);
+const yearStart=new Date(Date.UTC(d.getUTCFullYear(),0,1));
+return Math.ceil((((d-yearStart)/86400000)+1)/7);
+}
+
+function clock(){
+const d=new Date();
+$('#clock').innerHTML=`${pad(d.getHours()%12||12)}:${pad(d.getMinutes())}<span> ${d.getHours()<12?'AM':'PM'} · ${pad(d.getSeconds())}s</span>`;
+$('#date').textContent=d.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}).toUpperCase();
+$('#weekMoment').textContent=`${d.toLocaleDateString(undefined,{weekday:'long'})} · Week ${getISOWeekNumber(d)} of the year`;
+if(chosen===thisWeek())renderSummary();
+}
+setInterval(clock,1000);
+
+function renderSummary(){
+const s=stats(chosen);
+$('#headline').textContent=data.reports[chosen]?`${s.done} of ${s.total} missions secured · ${s.pct}%`:'Define your missions. Confirm your progress.';
+}
+
+function recommend(s){
+if(!s.time)return'Set a time';
+const match=s.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?\s*[–—-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+if(!match)return 'Follow your mission target';
+const endPeriod=match[6].toUpperCase(),startPeriod=(match[3]||endPeriod).toUpperCase();
+const mins=(h,m,p)=>(Number(h)%12+(p==='PM'?12:0))*60+Number(m);
+let n=mins(match[4],match[5],endPeriod)-mins(match[1],match[2],startPeriod);
+if(n<=0)n+=720;
+return n===60?'1 hour':n===75?'1 hour 15 minutes':n===90?'1 hour 30 minutes':n+' minutes';
+}
+
+function setView(v){
+view=v;
+$('#missionsView').classList.toggle('hidden',v!=='missions');
+$('#reportsView').classList.toggle('hidden',v!=='reports');
+$('#navMissions').classList.toggle('active',v==='missions');
+$('#navReports').classList.toggle('active',v==='reports');
+render();
+}
+
+function render(){
+if(chosen<FIRST_WEEK)chosen=FIRST_WEEK;
+if(chosen>lastAvailableWeek())chosen=lastAvailableWeek();
+initWeek(chosen);
+
+$('#prev').disabled=chosen<=FIRST_WEEK;
+$('#next').disabled=chosen>=lastAvailableWeek();
+$('#weekLabel').textContent=`${nice(chosen)} – ${nice(add(chosen,6))}${chosen===thisWeek()?' · NOW':''}`;
+renderSummary();
+
+$('#days').innerHTML=DAY_NAMES.map((name,i)=>{
+const date=add(chosen,i);
+const defined=getDefined(date);
+const done=defined.filter(s=>data.records[rk(date,s.uid)]).length;
+return `<button class="day ${selected===i?'active':''} ${date===today()?'today':''} ${date<today()&&i!==6&&defined.length>0&&done===0?'missed':''}" data-day="${i}"><b>${name.slice(0,3)}</b><span>${i===6?'OFF':done+'/'+defined.length}</span></button>`;
+}).join('');
+
+$('#days').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+selected=+b.dataset.day;
+render();
+});
+
+const date=add(chosen,selected);
+const sessions=getSessions(date);
+const defined=getDefined(date);
+
+$('#dayTag').textContent=selected===6?'REST DAY':'BUILD YOUR DAY';
+$('#dayName').textContent=DAY_NAMES[selected];
+$('#dayDate').textContent=nice(date)+(date===today()?' · TODAY':'');
+
+let html='';
+
+if(selected===6){
+html='<div class="panel rest"><div class="moon">☾</div><h2>Day off. Properly.</h2><p class="muted">No missed sessions. No penalties.</p></div>';
+}else{
+sessions.forEach((s,idx)=>{
+if(!s.defined){
+html+=`<article class="card empty-slot" data-slot="${idx}">
+<div class="empty-slot-inner">
+<span class="icon">✎</span>
+<p>Tap to define this mission</p>
+</div>
+</article>`;
+return;
+}
+const key=rk(date,s.uid);
+const done=!!data.records[key];
+const can=date===today()&&!done;
+html+=`<article class="card ${done?'locked':''}">
+<div><div class="between"><span class="small muted">${s.time||'No time set'}</span><span class="code">${s.code}</span><button class="secondary" data-edit="${idx}" style="padding:7px 10px;min-width:34px">✎</button></div>
+<h3>${s.title}</h3><p>${s.objective}</p></div>
+<div>
+<div class="between"><span class="status">${done?'✓ Permanently confirmed':date>today()?'Upcoming':date<today()?'Past date · Not confirmed':'Awaiting your confirmation'}</span></div>
+<button class="complete" data-confirm="${s.uid}" ${!can?'aria-disabled="true"':''}>${done?'✓ Locked':'Confirm'}</button>
+</div>
+<div class="recommend">RECOMMENDED: ${recommend(s)}</div>
+</article>`;
+});
+
+if(date>=today()&&sessions.length<MAX_SLOTS){
+html+=`<article class="card add-panel" data-add="true">
+<div class="add-panel-inner">
+<span class="add-symbol">+</span>
+<span class="add-label">ADD MISSION</span>
+</div>
+</article>`;
+}
+
+if(!sessions.length&&date<today()){
+html='<div class="panel"><p class="note">No missions were scheduled for this day.</p></div>';
+}
+}
+
+$('#cards').innerHTML=html;
+
+$('#cards').querySelectorAll('[data-slot]').forEach(el=>el.onclick=()=>editMission(date,+el.dataset.slot));
+$('#cards').querySelectorAll('[data-edit]').forEach(b=>b.onclick=e=>{e.stopPropagation();editMission(date,+b.dataset.edit)});
+$('#cards').querySelectorAll('[data-add]').forEach(el=>el.onclick=()=>addPanel(date));
+$('#cards').querySelectorAll('[data-confirm]').forEach(b=>b.onclick=()=>{
+const uid=+b.dataset.confirm;
+const key=rk(date,uid);
+if(b.getAttribute('aria-disabled')==='true'){
+if(data.records[key])glass('Mission permanently secured','You already confirmed this mission. Completed sessions cannot be unchecked.');
+else if(date>today())glass('Not available yet','This mission unlocks on its scheduled date.');
+else glass('This date has passed','Past sessions can no longer be confirmed.');
+return;
+}
+ask(date,uid);
+});
+
+$('#missionBriefing').textContent=selected===6?'Sunday · Rest day. No missions scheduled.':
+`${DAY_NAMES[selected]} · ${defined.filter(s=>data.records[rk(date,s.uid)]).length}/${defined.length} missions secured · ${defined.length-defined.filter(s=>data.records[rk(date,s.uid)]).length} remaining.`;
+
+renderReport();
+}
+
+function renderReport(){
+const s=stats(chosen),exists=!!data.reports[chosen],current=chosen===thisWeek(),future=chosen>thisWeek();
+$('#reportDetail').innerHTML=!exists?`<div class="panel"><div class="eyebrow">${future?'COMING UP':'AWAITING FIRST CONFIRMATION'}</div><h2>No report yet</h2><p class="note">The weekly report is automatically created the instant you confirm your first completed session in this week.</p></div>`:
+`<div class="report"><div class="eyebrow">${current?'LIVE WEEKLY REPORT':'WEEKLY REPORT · '+(future?'UPCOMING':'ARCHIVED')}</div><h2>${nice(chosen)} – ${nice(add(chosen,6))}</h2><div class="stats"><div class="stat"><strong class="glow">${s.pct}%</strong><span>Full-week target</span></div><div class="stat"><strong>${s.done}/${s.total}</strong><span>Confirmed missions</span></div><div class="stat"><strong>${s.pace}%</strong><span>Due by today</span></div></div><div class="bar"><div style="width:${s.pct}%"></div></div><p class="note">${current?`Today is ${parse(today()).toLocaleDateString(undefined,{weekday:'long'})}. Only ${s.elapsed} of ${s.total} sessions are scheduled up to today; ${s.elapsedDone} confirmed.`:`${s.days}/6 study days fully completed. Sunday is excluded.`}</p><p class="small muted">Report created: ${new Date(data.reports[chosen].created_at).toLocaleString()}</p></div>`;
+
+let weeks=[];
+for(let w=FIRST_WEEK;w<=lastAvailableWeek();w=add(w,7))weeks.push(w);
+$('#history').innerHTML=weeks.reverse().map(w=>{
+const r=stats(w),has=!!data.reports[w];
+return `<button data-week="${w}"><span><b>${nice(w)} – ${nice(add(w,6))}</b><small>${has?`${r.done}/${r.total} confirmed · ${w===thisWeek()?'LIVE':'Saved report'}`:'Not started'}</small></span><strong class="glow">${has?r.pct+'%':'—'}</strong></button>`;
+}).join('');
+$('#history').querySelectorAll('button').forEach(b=>b.onclick=()=>{chosen=b.dataset.week;selected=0;setView('reports')});
+}
+
+const wheelIds=['startWheel','endWheel'];
+for(const id of wheelIds){
+const root=$('#'+id);
+root.querySelector('.wheel-hour').innerHTML=Array.from({length:12},(_,i)=>`<option>${i+1}</option>`).join('');
+root.querySelector('.wheel-minute').innerHTML=Array.from({length:60},(_,i)=>`<option>${pad(i)}</option>`).join('');
+root.querySelector('.wheel-period').innerHTML='<option>AM</option><option>PM</option>';
+}
+
+function setWheel(id,part){
+const m=(part||'').trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+const w=$('#'+id);
+w.querySelector('.wheel-hour').value=m?String(+m[1]):'5';
+w.querySelector('.wheel-minute').value=m?m[2]:'00';
+w.querySelector('.wheel-period').value=m?m[3].toUpperCase():'PM';
+}
+
+function wheelValue(id){
+const w=$('#'+id);
+return `${w.querySelector('.wheel-hour').value}:${w.querySelector('.wheel-minute').value} ${w.querySelector('.wheel-period').value}`;
+}
+
+function timeMinutes(id){
+const w=$('#'+id),h=+w.querySelector('.wheel-hour').value,m=+w.querySelector('.wheel-minute').value;
+return (h%12+(w.querySelector('.wheel-period').value==='PM'?12:0))*60+m;
+}
+
+$('#editCode').onchange=()=>$('#editCustomCode').classList.toggle('hidden',$('#editCode').value!=='OTHER');
+
+async function pushMission(date,s){
+if(!sb||!user)return null;
+const key=rk(date,s.uid);
+const confirmed_at=data.records[key]?.confirmed_at||null;
+const {error}=await sb.from('missions').upsert({
+user_id:user.id,
+mission_date:date,
+slot_uid:s.uid,
+time_label:s.time||'',
+code:s.code||'',
+title:s.title||'',
+objective:s.objective||'',
+defined:true,
+confirmed_at
+},{onConflict:'user_id,mission_date,slot_uid'});
+return error;
+}
+
+async function deleteMissionRemote(date,uid){
+if(!sb||!user)return null;
+const {error}=await sb.from('missions')
+.delete()
+.eq('user_id',user.id)
+.eq('mission_date',date)
+.eq('slot_uid',uid);
+return error;
+}
+
+async function confirmMissionRemote(date,uid,confirmed_at){
+if(!sb||!user)return null;
+const {error:updateError,data:updated}=await sb.from('missions')
+.update({confirmed_at})
+.eq('user_id',user.id)
+.eq('mission_date',date)
+.eq('slot_uid',uid)
+.is('confirmed_at',null)
+.select();
+
+if(updateError)return updateError;
+if(updated&&updated.length)return null;
+
+const s=getSessions(date).find(x=>x.uid===uid);
+const {error:insertError}=await sb.from('missions').insert({
+user_id:user.id,
+mission_date:date,
+slot_uid:uid,
+time_label:s?.time||'',
+code:s?.code||'',
+title:s?.title||'',
+objective:s?.objective||'',
+defined:true,
+confirmed_at
+},{ignoreDuplicates:true});
+return insertError;
+}
+
+function addPanel(date){
+const sessions=getSessions(date);
+if(sessions.length>=MAX_SLOTS){notify('Maximum 5 missions per day reached');return}
+sessions.push({uid:nextUid(sessions),time:'',code:'',title:'',objective:'',defined:false});
+data.sessions[date]=sessions;
+persist();
+render();
+editMission(date,sessions.length-1);
+}
+
+function editMission(date,idx){
+const sessions=getSessions(date);
+const s=sessions[idx];
+if(!s)return;
+const key=rk(date,s.uid);
+if(s.defined&&data.records[key]){glass('Mission sealed','A permanently confirmed mission cannot be edited.');return}
+if(date<today()){glass('Past mission','Past missions can no longer be edited or added.');return}
+editing={date,idx};
+
+const times=(s.time||'').split(/\s*[–—-]\s*(?=\d)/);
+const endPart=(times[1]||'6:00 PM').trim();
+const endPeriod=(endPart.match(/(AM|PM)$/i)||[])[1]||'PM';
+const startPart=/(AM|PM)$/i.test((times[0]||'').trim())?(times[0]||'').trim():(times[0]||'5:00').trim()+' '+endPeriod;
+
+setWheel('startWheel',startPart);
+setWheel('endWheel',endPart);
+$('#editConflict').classList.add('hidden');
+
+const opts=[...$('#editCode').options].map(x=>x.value);
+$('#editCode').value=opts.includes(s.code)?s.code:'OTHER';
+$('#editCustomCode').value=opts.includes(s.code)?'':s.code;
+$('#editCustomCode').classList.toggle('hidden',$('#editCode').value!=='OTHER');
+$('#editName').value=s.title||'';
+$('#editObjective').value=s.objective||'';
+$('#editTitle').textContent=s.defined?'Refine your mission':'Define your mission';
+$('#deleteEdit').hidden=false;
+$('#editBack').classList.add('show');
+}
+
+$('#cancelEdit').onclick=()=>{$('#editBack').classList.remove('show');editing=null};
+$('#editBack').onclick=e=>{if(e.target===$('#editBack'))$('#cancelEdit').click()};
+
+$('#deleteEdit').onclick=async()=>{
+if(!editing)return;
+const {date,idx}=editing;
+const sessions=getSessions(date);
+const s=sessions[idx];
+if(!s)return;
+const key=rk(date,s.uid);
+if(data.records[key]){glass('Mission sealed','A confirmed mission cannot be deleted.');return}
+if(!confirm('Delete this mission? This cannot be undone.'))return;
+if(s.defined&&sb&&user){
+const error=await deleteMissionRemote(date,s.uid);
+if(error){notify('Delete sync failed: '+error.message);return}
+}
+sessions.splice(idx,1);
+data.sessions[date]=sessions;
+persist();
+$('#cancelEdit').click();
+render();
+notify('Mission deleted');
+};
+
+$('#saveEdit').onclick=async()=>{
+if(!editing)return;
+if(timeMinutes('endWheel')<=timeMinutes('startWheel')){notify('End time must be later than start time');return}
+
+const start=wheelValue('startWheel'),end=wheelValue('endWheel');
+const code=$('#editCode').value==='OTHER'?$('#editCustomCode').value.trim():$('#editCode').value;
+const title=$('#editName').value.trim();
+const objective=$('#editObjective').value.trim();
+
+if(!code||!title||!objective){notify('Complete all fields first');return}
+
+const time=`${start}–${end}`;
+const {date,idx}=editing;
+const sessions=getSessions(date);
+const current=sessions[idx];
+if(!current)return;
+const key=rk(date,current.uid);
+
+if(data.records[key]||date<today()){glass('Mission unavailable','This mission can no longer be edited.');return}
+
+const overlap=sessions.findIndex((s,i)=>{
+if(i===idx||!s.defined)return false;
+const parts=(s.time||'').split(/\s*[–—-]\s*(?=\d)/);
+const period=(parts[1]?.match(/(AM|PM)$/i)||[])[1]||'PM';
+const minutes=value=>{
+const m=(value||'').trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+return m?(+m[1]%12+(m[3].toUpperCase()==='PM'?12:0))*60+(+m[2]):-1;
+};
+const a=minutes(/(AM|PM)$/i.test((parts[0]||'').trim())?parts[0]:parts[0]+' '+period);
+const b=minutes(parts[1]||'');
+return a>=0&&b>=0&&timeMinutes('startWheel')<b&&a<timeMinutes('endWheel');
+});
+
+if(overlap!==-1){
+const other=sessions[overlap],msg=$('#editConflict');
+msg.textContent=`Time clash with ${other.code} · ${other.title} (${other.time}). Adjust the time or cancel.`;
+msg.classList.remove('hidden');
+msg.scrollIntoView({block:'nearest',behavior:'smooth'});
+return;
+}
+
+$('#editConflict').classList.add('hidden');
+sessions[idx]={...current,time,code,title,objective,defined:true};
+data.sessions[date]=sessions;
+persist();
+
+if(sb&&user){
+const error=await pushMission(date,sessions[idx]);
+if(error)notify('Saved locally, but sync failed: '+error.message);
+}
+
+$('#cancelEdit').click();
+render();
+notify('Mission saved ✦');
+};
+
+function ask(date,uid){
+const key=rk(date,uid);
+if(date!==today()||data.records[key])return;
+const s=getDefined(date).find(x=>x.uid===uid);
+if(!s)return;
+pending={date,uid};
+$('#confirmTitle').textContent=`Did you finish ${s.title}?`;
+$('#confirmDesc').textContent=`${s.time} · ${s.objective}. Only confirm if you actually completed the task.`;
+$('#confirmBack').classList.add('show');
+}
+
+$('#no').onclick=()=>{$('#confirmBack').classList.remove('show');pending=null};
+$('#confirmBack').onclick=e=>{if(e.target===$('#confirmBack'))$('#no').click()};
+
+$('#yes').onclick=async()=>{
+if(!pending)return;
+const {date,uid}=pending;
+const key=rk(date,uid);
+if(date!==today()||data.records[key])return;
+$('#yes').disabled=true;
+const confirmed_at=new Date().toISOString(),w=weekOf(date);
+
+if(sb&&user){
+const error=await confirmMissionRemote(date,uid,confirmed_at);
+if(error&&!String(error.code).includes('23505')){
+notify('Could not sync confirmation. Try again online.');
+$('#yes').disabled=false;
+return;
+}
+}
+
+data.records[key]={confirmed_at};
+if(!data.reports[w])data.reports[w]={created_at:confirmed_at};
+persist();
+pending=null;
+$('#confirmBack').classList.remove('show');
+$('#yes').disabled=false;
+render();
+notify('Mission locked ✓ Weekly report updated!');
+};
+
+$('#prev').onclick=()=>{if(chosen>FIRST_WEEK){chosen=add(chosen,-7);render()}else glass('Beginning of your journey','There are no earlier weeks available yet.')};
+$('#next').onclick=()=>{if(chosen<lastAvailableWeek()){chosen=add(chosen,7);render()}else glass('You are up to date','The next week unlocks automatically when its Monday arrives.')};
+$('#navMissions').onclick=()=>setView('missions');
+$('#navReports').onclick=()=>setView('reports');
+$('#navAccount').onclick=()=>openAccount();
+$('#account').onclick=()=>openAccount();
+
+const authMsg=t=>{$('#authNote').textContent=t||''};
+const showAuthScreen=id=>{
+document.querySelectorAll('#authBack .auth-screen').forEach(el=>el.classList.toggle('active',el.id===id));
+};
+const setAccountLabel=()=>{
+$('#account').textContent=username?'◉ '+username:user?'◉ Account':'◉ Sign in';
+};
+
+async function syncMissions(){
+if(!sb||!user)return;
+
+const {data:rows,error}=await sb.from('missions')
+.select('*')
+.eq('user_id',user.id)
+.order('mission_date');
+
+if(error){authMsg('Timetable sync error: '+error.message);return}
+
+const remoteMap=new Map();
+
+for(const row of rows||[]){
+const date=row.mission_date;
+remoteMap.set(rk(date,row.slot_uid),row);
+
+if(!Array.isArray(data.sessions[date]))data.sessions[date]=[];
+const arr=data.sessions[date];
+const idx=arr.findIndex(s=>s.uid===row.slot_uid);
+const remoteSession={
+uid:row.slot_uid,
+time:row.time_label||'',
+code:row.code||'',
+title:row.title||'',
+objective:row.objective||'',
+defined:row.defined!==false
+};
+
+if(idx===-1)arr.push(remoteSession);
+else arr[idx]={...arr[idx],...remoteSession};
+
+if(row.confirmed_at){
+data.records[rk(date,row.slot_uid)]={confirmed_at:row.confirmed_at};
+const w=weekOf(date);
+if(!data.reports[w])data.reports[w]={created_at:row.confirmed_at};
+}
+}
+
+for(const [date,arr] of Object.entries(data.sessions)){
+for(const s of arr){
+if(!s.defined)continue;
+const key=rk(date,s.uid);
+if(!remoteMap.has(key)){
+await pushMission(date,s);
+}
+}
+}
+
+for(const [key,val] of Object.entries(data.records)){
+const [date,uid]=key.split('|');
+const row=remoteMap.get(key);
+if(row&&!row.confirmed_at){
+await confirmMissionRemote(date,+uid,val.confirmed_at);
+}
+}
+
+persist();
+render();
+}
+
+async function loadAccount(u,openModal=true){
+const sequence=++authLoadSequence;
+user=u||null;
+username=null;
+authMsg('');
+$('#signout').hidden=!user;
+$('#changeUsername').hidden=true;
+setAccountLabel();
+
+if(!user){
+if(openModal)showAuthScreen('authLogin');
+return;
+}
+
+$('#account').textContent='◉ Checking account…';
+if(openModal)showAuthScreen('authUsername');
+authMsg('Checking your username…');
+
+try{
+const {data:profile,error}=await sb.from('profiles')
+.select('id,username')
+.eq('id',user.id)
+.maybeSingle();
+
+if(sequence!==authLoadSequence)return;
+
+if(error){
+showAuthScreen('authUsername');
+$('#saveUsername').disabled=true;
+authMsg('Could not check username: '+error.message);
+return;
+}
+
+$('#saveUsername').disabled=false;
+
+if(profile&&profile.username){
+username=profile.username;
+setAccountLabel();
+$('#usernameStage').textContent=username;
+$('#welcomeTitle').textContent='Welcome back, '+username+'.';
+$('#welcomeDesc').textContent='Your study progress is connected across your devices.';
+$('#accountEmail').textContent=user.email?'Signed in as '+user.email:'';
+$('#changeUsername').hidden=false;
+if(openModal)showAuthScreen('authWelcome');
+authMsg('');
+}else{
+username=null;
+setAccountLabel();
+$('#usernameInput').value='';
+if(openModal)showAuthScreen('authUsername');
+authMsg('Choose a username to finish setting up Study HQ.');
+}
+
+await syncMissions();
+}catch(error){
+if(sequence!==authLoadSequence)return;
+showAuthScreen('authUsername');
+$('#saveUsername').disabled=true;
+authMsg('Account check failed: '+(error?.message||String(error)));
+}
+}
+
+function animateUsername(value){
+const stage=$('#usernameStage');
+stage.replaceChildren();
+const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_';
+let chain=Promise.resolve();
+
+[...value].forEach(character=>{
+chain=chain.then(async()=>{
+const span=document.createElement('span');
+span.className='username-letter';
+span.textContent='·';
+stage.appendChild(span);
+
+const start=Date.now();
+while(Date.now()-start<360){
+span.textContent=alphabet[Math.floor(Math.random()*alphabet.length)];
+await new Promise(resolve=>setTimeout(resolve,48));
+}
+span.textContent=character;
+await new Promise(resolve=>setTimeout(resolve,105));
+});
+});
+}
+
+async function openAccount(){
+$('#authBack').classList.add('show');
+authMsg('');
+if(!sb){
+showAuthScreen('authLogin');
+authMsg('Account sync is not connected.');
+return;
+}
+if(user)await loadAccount(user,true);
+else showAuthScreen('authLogin');
+}
+
+$('#authBack').onclick=e=>{if(e.target===$('#authBack'))$('#authBack').classList.remove('show')};
+$('#welcomeDone').onclick=()=>$('#authBack').classList.remove('show');
+$('#googleSignIn').onclick=async()=>{
+if(!sb){authMsg('Account sync is not connected.');return}
+authMsg('Connecting to Google…');
+const {error}=await sb.auth.signInWithOAuth({
+provider:'google',
+options:{redirectTo:location.origin}
+});
+if(error)authMsg(error.message);
+};
+$('#showSignup').onclick=()=>{authMsg('');showAuthScreen('authSignup')};
+$('#showLogin').onclick=()=>{authMsg('');showAuthScreen('authLogin')};
+$('#retryProfile').onclick=async()=>{
+if(!user){authMsg('Please sign in first.');showAuthScreen('authLogin');return}
+$('#saveUsername').disabled=false;
+await loadAccount(user,true);
+};
+
+$('#changeUsername').onclick=()=>{
+if(!user){showAuthScreen('authLogin');return}
+$('#usernameInput').value=username||'';
+$('#saveUsername').textContent='Save new username';
+$('#saveUsername').disabled=false;
+showAuthScreen('authUsername');
+authMsg('Choose a new username. Your old username will be replaced.');
+};
+
+$('#createAccount').onclick=async()=>{
+if(!sb){authMsg('Account sync is not connected.');return}
+const email=$('#signupEmail').value.trim();
+const password=$('#signupPassword').value;
+if(!email||!password){authMsg('Enter email and password.');return}
+if(password.length<6){authMsg('Password must be at least 6 characters.');return}
+
+$('#createAccount').disabled=true;
+authMsg('Creating account…');
+try{
+const {data:result,error}=await sb.auth.signUp({
+email,
+password,
+options:{emailRedirectTo:location.origin}
+});
+if(error){authMsg(error.message);return}
+if(result.session&&result.user){
+await loadAccount(result.user,true);
+}else{
+showAuthScreen('authLogin');
+$('#email').value=email;
+$('#password').value='';
+authMsg('Account created. Check your email if confirmation is enabled, then sign in.');
+}
+}catch(error){
+authMsg(error?.message||'Account creation failed.');
+}finally{
+$('#createAccount').disabled=false;
+}
+};
+
+$('#signin').onclick=async()=>{
+if(!sb){authMsg('Account sync is not connected.');return}
+const email=$('#email').value.trim();
+const password=$('#password').value;
+if(!email||!password){authMsg('Enter email and password.');return}
+
+$('#signin').disabled=true;
+authMsg('Signing in…');
+try{
+const {data:result,error}=await sb.auth.signInWithPassword({email,password});
+if(error){authMsg(error.message);return}
+await loadAccount(result.user,true);
+}catch(error){
+authMsg(error?.message||'Sign-in failed.');
+}finally{
+$('#signin').disabled=false;
+}
+};
+
+$('#saveUsername').onclick=async()=>{
+if(!sb||!user){authMsg('Please sign in before choosing a username.');showAuthScreen('authLogin');return}
+if(usernameSaving)return;
+
+const value=$('#usernameInput').value.trim();
+if(!/^[A-Za-z0-9_]{3,20}$/.test(value)){
+authMsg('Username must be 3–20 characters and contain only letters, numbers or underscores.');
+return;
+}
+
+usernameSaving=true;
+$('#saveUsername').disabled=true;
+authMsg('Checking username availability…');
+
+try{
+const {data:existing,error:checkError}=await sb.from('profiles')
+.select('id,username')
+.ilike('username',value)
+.maybeSingle();
+
+if(checkError){
+authMsg('Could not check username availability: '+checkError.message);
+return;
+}
+
+if(existing&&existing.id!==user.id){
+authMsg('That username is already taken. Please choose another.');
+return;
+}
+
+if(existing&&existing.id===user.id&&existing.username===value){
+username=existing.username;
+setAccountLabel();
+$('#accountEmail').textContent=user.email?'Signed in as '+user.email:'';
+showAuthScreen('authWelcome');
+$('#welcomeTitle').textContent='Welcome back, '+username+'.';
+$('#welcomeDesc').textContent='Your study progress is connected across your devices.';
+$('#usernameStage').textContent=username;
+$('#changeUsername').hidden=false;
+$('#saveUsername').textContent='Continue →';
+authMsg('');
+await syncMissions();
+return;
+}
+
+authMsg('Saving your username…');
+const {error:saveError}=await sb.from('profiles').upsert({
+id:user.id,
+username:value
+},{onConflict:'id'});
+
+if(saveError){
+if(saveError.code==='23505'){
+authMsg('That username has just been taken. Please choose another.');
+}else{
+authMsg('Could not save your username: '+saveError.message);
+}
+return;
+}
+
+username=value;
+setAccountLabel();
+$('#accountEmail').textContent=user.email?'Signed in as '+user.email:'';
+showAuthScreen('authWelcome');
+$('#welcomeTitle').textContent='Username saved.';
+$('#welcomeDesc').textContent='Your username is now synced across your devices.';
+$('#usernameStage').textContent=username;
+$('#changeUsername').hidden=false;
+$('#saveUsername').textContent='Continue →';
+authMsg('');
+animateUsername(value);
+await syncMissions();
+
+}catch(error){
+authMsg('Something went wrong while saving your username: '+(error?.message||String(error)));
+}finally{
+usernameSaving=false;
+$('#saveUsername').disabled=false;
+}
+};
+
+$('#signout').onclick=async()=>{
+if(!sb)return;
+$('#signout').disabled=true;
+try{
+const {error}=await sb.auth.signOut();
+if(error){authMsg(error.message);return}
+user=null;
+username=null;
+setAccountLabel();
+$('#changeUsername').hidden=true;
+showAuthScreen('authLogin');
+authMsg('You have signed out.');
+}catch(error){
+authMsg(error?.message||'Sign-out failed.');
+}finally{
+$('#signout').disabled=false;
+}
+};
+
+function glass(title,desc){
+$('#glassTitle').textContent=title;
+$('#glassDesc').textContent=desc;
+$('#glassBack').classList.add('show');
+}
+$('#glassClose').onclick=()=>$('#glassBack').classList.remove('show');
+$('#glassBack').onclick=e=>{if(e.target===$('#glassBack'))$('#glassClose').click()};
+
+if(SUPABASE_URL&&SUPABASE_ANON_KEY){
+try{
+const {createClient}=await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
+sb=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+
+sb.auth.onAuthStateChange((event,session)=>{
+setTimeout(()=>{
+loadAccount(session?.user||null,true);
+},0);
+});
+
+const {data:{session},error:sessionError}=await sb.auth.getSession();
+if(sessionError)authMsg('Could not restore sign-in session: '+sessionError.message);
+else await loadAccount(session?.user||null,false);
+}catch(error){
+authMsg('Sync initialization failed: '+(error?.message||String(error)));
+}
+}else{
+authMsg('Supabase is not configured.');
+}
+
+let deferredPrompt=null;
+const installBtn=$('#installBtn');
+
+window.addEventListener('beforeinstallprompt',e=>{
+e.preventDefault();
+deferredPrompt=e;
+installBtn.classList.remove('hidden');
+});
+
+installBtn.onclick=async()=>{
+if(!deferredPrompt)return;
+deferredPrompt.prompt();
+await deferredPrompt.userChoice;
+deferredPrompt=null;
+installBtn.classList.add('hidden');
+};
+
+window.addEventListener('appinstalled',()=>{
+installBtn.classList.add('hidden');
+notify('Study HQ installed');
+});
+
+clock();
+setView('missions');
+
+if('serviceWorker' in navigator){
+window.addEventListener('load',()=>{
+navigator.serviceWorker.register('./sw.js').catch(()=>{});
+});
+}
+</script>
+</body>
+</html>
